@@ -38,8 +38,9 @@
     }
 
     :root {
-      --paper: #f6f3ec;
-      --paper-soft: #faf8f3;
+      --paper: #faf8f2;
+      --paper-soft: #fcfaf6;
+      --cover-paper: #f0ece3;
       --text: #1f211d;
       --body: #4e524a;
       --sub: #6f7369;
@@ -57,7 +58,7 @@
 
     body {
       margin: 0;
-      background: #ebe9e3;
+      background: #efece4;
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.7;
@@ -73,7 +74,220 @@
       overflow: hidden;
     }
 
+    body.cover-locked {
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
     button, a { -webkit-tap-highlight-color: transparent; }
+
+    /* OPENING COVER */
+    .invitation-cover {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      z-index: 30000;
+      width: min(100%, 520px);
+      height: var(--cover-vh, 100svh);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--cover-paper);
+      background-image: url("./images/paper-texture.png");
+      background-repeat: repeat;
+      background-size: 560px 560px;
+      box-shadow: 0 18px 38px rgba(31, 33, 29, .10);
+      transform: translateX(-50%) translateY(0);
+      will-change: transform;
+      touch-action: none;
+      isolation: isolate;
+    }
+
+    .invitation-cover::before,
+    .invitation-cover::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(111, 121, 97, .16);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .invitation-cover::after {
+      inset: 22px;
+      border-color: rgba(111, 121, 97, .08);
+    }
+
+    .invitation-cover.opening {
+      animation: coverPeelOpen .98s cubic-bezier(.34,.86,.29,.99) forwards;
+    }
+
+    @keyframes coverPeelOpen {
+      0% {
+        transform: translateX(-50%) translateY(0);
+        box-shadow: 0 18px 38px rgba(31, 33, 29, .10);
+      }
+      16% {
+        transform: translateX(-50%) translateY(12px);
+        box-shadow: 0 24px 44px rgba(31, 33, 29, .12);
+      }
+      100% {
+        transform: translateX(-50%) translateY(-104%);
+        box-shadow: 0 32px 54px rgba(31, 33, 29, .16);
+      }
+    }
+
+    .cover-band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 176px;
+      transform: translateY(-50%);
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, .32) 0%,
+        rgba(252, 250, 246, .82) 24%,
+        rgba(252, 250, 246, .88) 50%,
+        rgba(252, 250, 246, .82) 76%,
+        rgba(255, 255, 255, .32) 100%
+      );
+      border-top: 1px solid rgba(111, 121, 97, .10);
+      border-bottom: 1px solid rgba(111, 121, 97, .10);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cover-band::before,
+    .cover-band::after {
+      content: "";
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      height: 1px;
+      background: rgba(111, 121, 97, .08);
+    }
+
+    .cover-band::before {
+      top: 14px;
+    }
+
+    .cover-band::after {
+      bottom: 14px;
+    }
+
+    .cover-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 28px;
+      text-align: center;
+      transform: translateY(-4vh);
+    }
+
+    .cover-inner::before,
+    .cover-inner::after {
+      content: "";
+      display: block;
+      width: 86px;
+      height: 1px;
+      margin: 0 auto;
+      background: rgba(111, 121, 97, .18);
+    }
+
+    .cover-inner::before {
+      margin-bottom: 18px;
+    }
+
+    .cover-inner::after {
+      margin-top: 18px;
+    }
+
+    .cover-leaf {
+      width: 36px;
+      height: 52px;
+      margin: 0 auto 17px;
+      background: var(--sage);
+      opacity: .36;
+      -webkit-mask-image: url("./images/leaf.svg");
+      mask-image: url("./images/leaf.svg");
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      transform: rotate(-2deg);
+    }
+
+    .cover-eyebrow {
+      margin: 0 0 22px;
+      color: var(--sage);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+    }
+
+    .cover-names {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: -.02em;
+    }
+
+    .cover-date {
+      margin-top: 15px;
+      color: var(--sub);
+      font-size: 12px;
+      letter-spacing: .16em;
+    }
+
+    .cover-scroll {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      right: 0;
+      bottom: max(26px, calc(env(safe-area-inset-bottom) + 16px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 8px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .cover-scroll::after {
+      content: "↓";
+      color: var(--sage);
+      font-size: 15px;
+      line-height: 1;
+      letter-spacing: 0;
+      animation: coverScrollHint 1.8s ease-in-out infinite;
+    }
+
+    @keyframes coverScrollHint {
+      0%, 100% { transform: translateY(0); opacity: .55; }
+      50% { transform: translateY(4px); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invitation-cover,
+      .invitation-cover.opening {
+        transition-duration: .01ms;
+        animation-duration: .01ms;
+      }
+
+      .cover-scroll::after {
+        animation: none;
+      }
+    }
 
     .page {
       width: min(100%, 520px);
@@ -175,8 +389,8 @@
     .hero {
       position: relative;
       width: 100%;
-      min-height: var(--hero-vh, 100svh);
-      height: var(--hero-vh, 100svh);
+      min-height: var(--hero-vh, 82svh);
+      height: var(--hero-vh, 82svh);
       padding: 0;
       overflow: hidden;
       background: var(--paper);
@@ -195,10 +409,10 @@
           rgba(16, 17, 14, .18) 0%,
           rgba(16, 17, 14, 0) 24%),
         linear-gradient(to bottom,
-          rgba(246, 243, 236, 0) 0%,
-          rgba(246, 243, 236, 0) 78%,
-          rgba(246, 243, 236, .18) 83%,
-          rgba(246, 243, 236, .58) 90%,
+          rgba(250, 248, 242, 0) 0%,
+          rgba(250, 248, 242, 0) 78%,
+          rgba(250, 248, 242, .18) 83%,
+          rgba(250, 248, 242, .58) 90%,
           var(--paper) 100%);
     }
 
@@ -1339,7 +1553,18 @@
   <meta property="og:image:type" content="image/jpeg">
 </head>
 
-<body>
+<body class="cover-locked">
+  <div class="invitation-cover" id="invitation-cover" aria-label="모바일 청첩장 표지">
+    <div class="cover-band" aria-hidden="true"></div>
+    <div class="cover-inner">
+      <div class="cover-leaf" aria-hidden="true"></div>
+      <p class="cover-eyebrow">Wedding Invitation</p>
+      <h1 class="cover-names">조민재 <span aria-hidden="true">·</span> 김은별</h1>
+      <div class="cover-date">2026.10.31</div>
+    </div>
+    <div class="cover-scroll" aria-hidden="true">Scroll</div>
+  </div>
+
   <main class="page">
 
     <section class="hero">
@@ -2229,6 +2454,115 @@
       });
     })();
 
+    // 첫 스크롤에서 표지가 한 장의 종이처럼 위로 걷힌다.
+    // 걷히는 동안에는 추가 휠/터치/키보드 스크롤 입력을 막는다.
+    (function () {
+      const cover = document.getElementById("invitation-cover");
+      if (!cover) {
+        document.body.classList.remove("cover-locked");
+        return;
+      }
+
+      let opening = false;
+      let finished = false;
+      let touchStartY = 0;
+      let touchLastY = 0;
+
+      // 브라우저가 이전 스크롤 위치를 복원해도 표지 뒤에는 항상 메인사진이 오도록.
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+
+      const stop = event => {
+        if (!finished && event.cancelable) event.preventDefault();
+      };
+
+      const finishOpening = () => {
+        if (finished) return;
+        finished = true;
+        opening = false;
+        cover.style.display = "none";
+        document.body.classList.remove("cover-locked");
+
+        window.removeEventListener("wheel", onWheel);
+        window.removeEventListener("touchstart", onTouchStart);
+        window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchend", onTouchEnd);
+        window.removeEventListener("keydown", onKeyDown);
+      };
+
+      const openCover = () => {
+        if (opening || finished) return;
+        opening = true;
+        cover.classList.add("opening");
+
+        const reduced =
+          window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // transitionend 누락 대비 fallback.
+        window.setTimeout(finishOpening, reduced ? 40 : 1100);
+      };
+
+      function onWheel(event) {
+        if (finished) return;
+        stop(event);
+        if (!opening && event.deltaY > 4) openCover();
+      }
+
+      function onTouchStart(event) {
+        if (finished || !event.touches.length) return;
+        touchStartY = event.touches[0].clientY;
+        touchLastY = touchStartY;
+      }
+
+      function onTouchMove(event) {
+        if (finished) return;
+        if (event.touches.length) touchLastY = event.touches[0].clientY;
+        stop(event);
+      }
+
+      function onTouchEnd(event) {
+        if (finished) return;
+        stop(event);
+        // 손가락을 위로 밀면 페이지를 아래로 스크롤하려는 동작.
+        if (!opening && touchLastY - touchStartY < -22) openCover();
+      }
+
+      function onKeyDown(event) {
+        if (finished) return;
+
+        const opensDownward =
+          event.key === "ArrowDown" ||
+          event.key === "PageDown" ||
+          event.key === " " ||
+          event.code === "Space";
+
+        if (
+          opensDownward ||
+          event.key === "ArrowUp" ||
+          event.key === "PageUp" ||
+          event.key === "Home" ||
+          event.key === "End"
+        ) {
+          stop(event);
+        }
+
+        if (!opening && opensDownward) openCover();
+      }
+
+      cover.addEventListener("animationend", () => {
+        if (opening) finishOpening();
+      });
+
+      window.addEventListener("wheel", onWheel, { passive: false });
+      window.addEventListener("touchstart", onTouchStart, { passive: true });
+      window.addEventListener("touchmove", onTouchMove, { passive: false });
+      window.addEventListener("touchend", onTouchEnd, { passive: false });
+      window.addEventListener("keydown", onKeyDown, { passive: false });
+    })();
+
     // 카카오톡 등 모바일 인앱 브라우저의 주소창 show/hide로
     // 첫 화면 사진 크기가 변하지 않도록 최초 viewport 높이를 고정한다.
     (function () {
@@ -2241,7 +2575,10 @@
           document.documentElement.clientHeight;
 
         if (!height) return;
-        root.style.setProperty("--hero-vh", `${Math.round(height)}px`);
+
+        // 표지는 정확히 한 화면, 메인 사진은 그보다 조금 짧게.
+        root.style.setProperty("--cover-vh", `${Math.round(height)}px`);
+        root.style.setProperty("--hero-vh", `${Math.round(height * 0.82)}px`);
       }
 
       setInitialHeroViewport();
