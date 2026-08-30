@@ -111,6 +111,60 @@
       letter-spacing: -.015em;
     }
 
+    /* CHAPTER LEAF DECORATION
+       ./images/leaf.svg 한 파일을 공통으로 사용.
+       mask 방식이라 SVG 자체 색과 무관하게 CSS에서 색/투명도 조절 가능. */
+    .intro::before,
+    .calendar::before,
+    .location::before,
+    .gallery::before,
+    .account::before {
+      content: "";
+      display: block;
+      width: 34px;
+      height: 50px;
+      margin: 0 auto 15px;
+      background-color: var(--sage);
+      opacity: .46;
+
+      -webkit-mask-image: url("./images/leaf.svg");
+      mask-image: url("./images/leaf.svg");
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+
+      transform-origin: center;
+      pointer-events: none;
+    }
+
+    /* 같은 모티프를 조금씩만 다르게 */
+    .intro::before {
+      transform: rotate(-6deg);
+    }
+
+    .calendar::before {
+      transform: rotate(7deg) scaleX(-1);
+      opacity: .42;
+    }
+
+    .location::before {
+      transform: rotate(-3deg);
+      opacity: .44;
+    }
+
+    .gallery::before {
+      transform: rotate(8deg) scaleX(-1);
+      opacity: .40;
+    }
+
+    .account::before {
+      transform: rotate(3deg);
+      opacity: .43;
+    }
+
     /* HERO */
     .hero {
       position: relative;
@@ -1776,7 +1830,7 @@
 
   <div class="copy-toast" id="copy-toast">복사했습니다.</div>
 
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=22b361d83f7cbee13531bd2ebeeb0eba"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=kakaomapkey"></script>
 
   <script>
     // 카카오맵
