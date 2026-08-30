@@ -121,11 +121,11 @@
     .account::before {
       content: "";
       display: block;
-      width: 34px;
-      height: 50px;
-      margin: 0 auto 15px;
+      width: 29px;
+      height: 42px;
+      margin: 0 auto 11px;
       background-color: var(--sage);
-      opacity: .46;
+      opacity: .39;
 
       -webkit-mask-image: url("./images/leaf.svg");
       mask-image: url("./images/leaf.svg");
@@ -140,29 +140,35 @@
       pointer-events: none;
     }
 
-    /* 같은 모티프를 조금씩만 다르게 */
+    /* 같은 모티프는 유지하고, 방향만 아주 미세하게 변화 */
     .intro::before {
-      transform: rotate(-6deg);
-    }
-
-    .calendar::before {
-      transform: rotate(7deg) scaleX(-1);
-      opacity: .42;
-    }
-
-    .location::before {
-      transform: rotate(-3deg);
-      opacity: .44;
-    }
-
-    .gallery::before {
-      transform: rotate(8deg) scaleX(-1);
+      width: 30px;
+      transform: rotate(-2deg);
       opacity: .40;
     }
 
+    .calendar::before {
+      width: 28px;
+      transform: rotate(3deg) scaleX(-1);
+      opacity: .37;
+    }
+
+    .location::before {
+      width: 29px;
+      transform: rotate(-1deg);
+      opacity: .38;
+    }
+
+    .gallery::before {
+      width: 29px;
+      transform: rotate(2deg) scaleX(-1);
+      opacity: .37;
+    }
+
     .account::before {
-      transform: rotate(3deg);
-      opacity: .43;
+      width: 28px;
+      transform: rotate(1deg);
+      opacity: .38;
     }
 
     /* HERO */
