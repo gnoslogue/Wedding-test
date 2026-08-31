@@ -81,6 +81,34 @@
 
     button, a { -webkit-tap-highlight-color: transparent; }
 
+    .preview-badge {
+      display: none;
+      position: fixed;
+      top: max(14px, calc(env(safe-area-inset-top) + 10px));
+      right: 16px;
+      z-index: 31000;
+      padding: 6px 10px;
+      border: 1px solid rgba(255, 255, 255, .72);
+      border-radius: 999px;
+      background: rgba(34, 37, 32, .22);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: rgba(255, 255, 255, .96);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      line-height: 1;
+      text-transform: uppercase;
+      pointer-events: none;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .10);
+    }
+
+    .preview-badge.is-visible {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* OPENING COVER */
     .invitation-cover {
       position: fixed;
@@ -1554,6 +1582,7 @@
 </head>
 
 <body class="cover-locked">
+  <div class="preview-badge" id="preview-badge" aria-hidden="true">PREVIEW</div>
   <div class="invitation-cover" id="invitation-cover" aria-label="모바일 청첩장 표지">
     <div class="cover-band" aria-hidden="true"></div>
     <div class="cover-inner">
@@ -2452,6 +2481,19 @@
       document.addEventListener("keydown", event => {
         if (event.key === "Escape") closeLightbox();
       });
+    })();
+
+    // 운영 도메인이 아닐 때만 우측 상단에 PREVIEW 표시.
+    (function () {
+      const badge = document.getElementById("preview-badge");
+      if (!badge) return;
+
+      const host = window.location.hostname;
+      const isProduction = host === "wedding.gnoslogue.com";
+
+      if (!isProduction) {
+        badge.classList.add("is-visible");
+      }
     })();
 
     // 첫 스크롤에서 표지가 한 장의 종이처럼 위로 걷힌다.
