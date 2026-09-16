@@ -467,8 +467,9 @@
     .hero {
       position: relative;
       width: 100%;
-      min-height: var(--hero-vh, 82svh);
-      height: var(--hero-vh, 82svh);
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 390 / 844;
       padding: 0;
       overflow: hidden;
       background: var(--paper);
@@ -532,7 +533,7 @@
     .hero-topline {
       position: absolute;
       z-index: 3;
-      top: max(24px, calc(env(safe-area-inset-top) + 14px));
+      top: 3.1%;
       left: 20px;
       right: 20px;
       text-align: center;
@@ -548,16 +549,19 @@
     .hero-bottom {
       position: absolute;
       z-index: 3;
-      left: 24px;
-      right: 24px;
-      bottom: max(96px, calc(env(safe-area-inset-bottom) + 76px));
-      padding: 0;
+      top: 57%;
+      left: 0;
+      right: 0;
+      bottom: auto;
+      padding: 0 18px;
       text-align: center;
+      transform: translateY(-50%);
     }
 
     .hero-names-svg {
       display: block;
-      width: min(80vw, 336px);
+      width: 84%;
+      max-width: none;
       height: auto;
       margin: 0 auto;
       opacity: .97;
@@ -572,13 +576,8 @@
 
     @media (max-width: 420px) {
       .hero-topline {
-        top: max(22px, calc(env(safe-area-inset-top) + 12px));
         font-size: 9px;
         letter-spacing: .13em;
-      }
-
-      .hero-names-svg {
-        width: min(82vw, 320px);
       }
     }
 
@@ -2713,9 +2712,10 @@
 
         if (!height) return;
 
-        // 표지는 정확히 한 화면, 메인 사진은 그보다 조금 짧게.
+        // 표지만 실제 화면 높이에 맞춘다.
+        // 메인 사진은 CSS의 고정 비율 캔버스로 처리해
+        // 브라우저 주소창/인앱 브라우저 높이에 따라 오버레이 위치가 흔들리지 않게 한다.
         root.style.setProperty("--cover-vh", `${Math.round(height)}px`);
-        root.style.setProperty("--hero-vh", `${Math.round(height * 0.82)}px`);
       }
 
       setInitialHeroViewport();
